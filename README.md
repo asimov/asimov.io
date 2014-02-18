@@ -72,9 +72,27 @@ Although the Asimov implementation is different, the idea remains the same.
 
 ## Built for today
 
-We're proud to have built on the shoulders of giants.
-
 We felt it was important to use the latest generation of tools and techniques to tackle the current day problems. With that in mind the Asimov project has been influenced by work done by many great minds.
+
+### Technology behind Asimov
+
+We're proud to have built on the shoulders of giants!
+
+To build Asimov use
+
+- [Sass](http://sass-lang.com)
+- [Bower](http://bower.io)
+- Some [OOCSS](https://github.com/stubbornella/oocss/wiki) concepts
+- Some [BEM](http://bem.info/method/definitions/) concepts
+- [RequireJS](http://requirejs.org)
+- [Grunt](http://gruntjs.com) __optional__
+
+Asimov has also been influenced by these great projects
+
+- [Bootstrap](http://getbootstrap.com)
+- [Foundation](http://foundation.zurb.com)
+- [Topcoat](http://topcoat.io)
+- [SUIT](https://github.com/suitcss)
 
 
 # Getting started
@@ -130,10 +148,86 @@ This will mix `grid-row` into `.my-div`, but not output the entire grid componen
 When using any Asimov functions, mixins, or components in your Sass files you currently need to `@import "asimov/asimov";` to bootstrap Asimov.
 
 
+# Architecture
+
+Unlike some frontend frameworks Asimov is not one project, but a group of projects that work together: [asimov-core](https://github.com/asimov/asimov-core), [asimov-build](https://github.com/asimov/asimov-build), asimov components _[TODO: link to component directory when ready]_, and themes _[TODO: link to theme directory when ready]_. 
+
+Asimov core is the base set of Sass and javascript function that are utilised by all the other Asimov projects. Check out the [Core](#core) documentation to learn more.
+
+Asimov build is the build logic for compiling Asimov themes. If you choose to [direct integration](#direct-integration) over using a theme Asimov build is a template of the what you'll need to compile your Asimov components. At the moment it relies on [Grunt](http://gruntjs.com) but the goal is to be set of scripts that are agnostic to how they're executed.
+
+Components are the real work horses. That's where the mixins you consume, and the css you serve are defined. Components are self-contained peices with all the css, javascript, fonts, images and other assets they need to render. Components can also depend on other components. This means composing sophisticated components can be done with very little code since a lot of the grunt work may have already been done for you.
+
+Themes are simply a collection of components and theming variables. Themes can be bower installed into your project, or compiled into a distribution with asimov-build.
+
+All said and done the Asimov architecure is very similiar other module or plugin based projects like Grunt.
+
+![Asimov architecure](../docs/as-markdown/images/asimov-architecture.png?raw=true)
 
 
+# Core
+
+## Settings
+
+## API
+
+### Functions
+
+### Mixins
 
 
+# Components
+
+## Using a component
+
+## Anatomy of a component
+
+### Settings
+
+### Functions
+
+### Mixins
+
+### Output
+
+## Writing your first component
+
+
+# Themes
+
+TBA
+
+## Using a theme
+
+TBA
+
+## Anatomy of a theme
+
+TBA
+
+### Settings
+
+TBA
+
+### Functions
+
+TBA
+
+### Mixins
+
+TBA
+
+### Components
+
+TBA
+
+### Output
+
+TBA
+
+## Writing your first theme
+
+TBA
 
 
 
