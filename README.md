@@ -11,7 +11,8 @@ Asimov is a rethinking of frontend frameworks in a modern style. The aim is to m
   * [Our solution](#our-solution)
   * [Built for today](#build-for-today)
     * [Technology behind Asimov](#technology-behind-asimov)
-2. [Getting started](#intro-getting-started)
+2. [Getting started](#getting-started)
+  * [System requirements](#system-requirements)
   * [Use it like bootstrap](#use-it-like-bootstrap)
   * [Direct integration](#direct-integration)
 3. [Architecture](#archeticure)
@@ -19,8 +20,12 @@ Asimov is a rethinking of frontend frameworks in a modern style. The aim is to m
   * [Settings](#core-settings)
     * [Aliases](#aliases)
     * [Lazys](#lazys)
-  * [Functions](#core-functions)
-  * [Mixins](#core-mixins)
+    * [Functions](#functions)
+      * [get](#get)
+      * [set](#set)
+      * [set-default](#set-default)
+      * [lazy](#lazy)
+    * [Mixins](#mixins)
 5. [Components](#components)
   * [Using a component](#component-usage)
   * [Anatomy of a component](#components-anatomy)
@@ -101,6 +106,32 @@ Asimov has also been influenced by these great projects
 Your projects can consume Asimov in two ways, by using a [pre-compiled distribution](#use-it-like-bootstrap) or by importing components directly into your [existing Sass projects](#direct-integration).
 
 Compiling a collection of components and a their theming variable to a static distribution is done with [themes](#themes). Using themes allows for easy sharing of compiled assets, theming variables, and version controlling - however using themes is optional. You can just as easily bower install Asimov components [directly into your project](#direct-integration) and use Sass `@import` to load components and/or their mixins.
+
+### System requirements
+
+Before you proceed you'll need to install the following on your system:
+
+- Git
+- Ruby 1.9+
+- NodeJS 0.8.0+
+
+You'll also need bower to install Asimov components:
+
+```bash
+sudo npm install bower -g --save-dev
+```
+
+Sass 3.3 to compile Asimov, either via `gem`
+
+```bash
+gem install sass --pre
+```
+
+or `bundler` by adding the following to your `Gemfile`
+
+```bash
+gem "sass", "~> 3.3.0.rc.4"
+```
 
 ### Use it like bootstrap
 
@@ -252,7 +283,7 @@ If the value of `get($key)` is a lazy, it will evaluated and the returned value 
 The primary use case is to evaluate aliased values at runtime.
 
 | param   | type   |
-:--- -----|:-------|
+:---------|:-------|
 | `$func` | String |
 | `$args` | Map    |
 
