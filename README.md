@@ -17,9 +17,10 @@ Asimov is a rethinking of frontend frameworks in a modern style. The aim is to m
 3. [Architecture](#archeticure)
 4. [Core](#core)
   * [Settings](#core-settings)
-  * [API](#core-api)
-    * [Functions](#core-functions)
-    * [Mixins](#core-mixins)
+    * [Aliases](#aliases)
+    * [Lazys](#lazys)
+  * [Functions](#core-functions)
+  * [Mixins](#core-mixins)
 5. [Components](#components)
   * [Using a component](#component-usage)
   * [Anatomy of a component](#components-anatomy)
@@ -173,7 +174,7 @@ The backbone of Asimov's theming power is the settings API. All every peice of t
 
 The settings API is the interface for Asimov's internal settings data store. With the settings API you can retrieve and store any valid Sass literal, via the [get](#get) and [set](#set) functions.
 
-Components will try to `get` settings so they can theme themselves, for eg.
+Components will try to `get` settings so they can theme themselves eg:
 
 ```scss
 // a button component
@@ -186,11 +187,76 @@ Components will try to `get` settings so they can theme themselves, for eg.
 }
 ```
 
-## API
+If there is not value set yet `get` will return `null`. (__[Why do you return null?](#why-the-strange-import-paths)__)
 
-### Functions
+### Aliases
 
-### Mixins
+### Lazys
+
+## Functions
+
+### get
+
+Gets `$key`s value.
+
+| param    | type   |
+:----------|:-------|
+| `$key`   | String |
+
+In order reference a nested key, treat it's parents as a directory, separating them by a  `/` eg.
+
+```scss
+$settings: set(("foo": (
+    "bar": (
+        "baz": "test",
+     ),
+));
+
+@debug(get("foo/bar/baz"));
+```
+
+### set
+
+Sets `$key`s value to `$value`.
+
+| param    | type          |
+:----------|:--------------|
+| `$key`   | String or Map |
+| `$value` | Literal       |
+
+If `$key` is a `String` then `$value` is recursively merged with `$key`s current value.  
+The new value for `$key` is returned.
+
+If `$key` is a `Map` then `$key` is recursively merged with settings and `$value` is ignored.  
+A copy of the updated settings map is returned.
+
+### set-default
+
+Sets `$key`s value to `$value` only if it currently has no value. This emulates Sass's native [!default](http://sass-lang.com/documentation/file.SASS_REFERENCE.html#variable_defaults_).
+
+| param    | type          |
+:----------|:--------------|
+| `$key`   | String or Map |
+| `$value` | Literal       |
+
+If `$key` is a `String` then `$value` is recursively merged with `$key`s current value.  
+The new value for `$key` is returned.
+
+If `$key` is a `Map` then `$key` is recursively merged with settings and `$value` is ignored.  
+A copy of the updated settings map is returned.
+
+### lazy
+
+Serializes a call to `$func` with arguments `$args` that can be later evaluated by [get](#get).  
+If the value of `get($key)` is a lazy, it will evaluated and the returned value is returned.  
+The primary use case is to evaluate aliased values at runtime.
+
+| param   | type   |
+:--- -----|:-------|
+| `$func` | String |
+| `$args` | Map    |
+
+## Mixins
 
 
 # Components
