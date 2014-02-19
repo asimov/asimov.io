@@ -167,7 +167,24 @@ All said and done the Asimov architecure is very similiar other module or plugin
 
 # Core
 
+The backbone of Asimov's theming power is the settings API. All every peice of the Asimov eco-system interacts with settings API, and it lives within Asimov core.
+
 ## Settings
+
+The settings API is the interface for Asimov's internal settings data store. With the settings API you can retrieve and store any valid Sass literal, via the [get](#get) and [set](#set) functions.
+
+Components will try to `get` settings so they can theme themselves, for eg.
+
+```scss
+// a button component
+
+.button {
+  display: block;
+  ...
+  font-size: get('button-component/font-size');
+  background: get('button-component/background');
+}
+```
 
 ## API
 
