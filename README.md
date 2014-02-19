@@ -258,6 +258,47 @@ The primary use case is to evaluate aliased values at runtime.
 
 ### Mixins
 
+#### responsive-property
+
+This mixin outputs `$property: get($key);` where `$key` is a map who's keys are breakpoint names returned by `get("breakpoints")` eg:
+
+```scss
+$settings: ("my-component": (
+  "background": (
+    "mobile": #f00,
+    "tablet": #0f0,
+    "desktop": #00f,
+  ),
+));
+
+.foo {
+  @include responsive-property("my-component/background", $background-color);
+}
+
+// outputs (using the `mobile`, `tablet` and `desktop` breakpoints sample data);
+
+@media (min-width: 0) and (max-width: 599px) {
+  .foo {
+    background-color: #f00;
+  }
+}
+@media (min-width: 600px) and (max-width: 899px) {
+  .foo {
+    background-color: #0f0;
+  }
+}
+@media (min-width: 900px) {
+  .foo {
+    background-color: #00f;
+  }
+}
+```
+
+| param       | type   |
+:-------------|:-------|
+| `$key`      | String |
+| `$property` | String |
+
 
 ## Components
 
