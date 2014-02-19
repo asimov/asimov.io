@@ -43,7 +43,7 @@ Asimov is a rethinking of frontend frameworks in a modern style. The aim is to m
   * [Why not namespace under Asimov?](#why-not-namespace-under-asimov)
 8. [License](#license)
 
-# Why Asimov
+## Why Asimov
 
 Over recent years we've experienced rapid increase in the complexity of frontend engineering.
 
@@ -51,13 +51,13 @@ With the increased complexity grew a need for ways to easily build good looking 
 
 Asimov is a re-thinking of current frontend frameworks that attempts to address some of the [new problems](#problems) we've created.
 
-## The problem
+### The problem
 
 Traditionally frontend frameworks have taken the kitchen sink approach. What starts off as a humble set of sane defaults, grows over time into forms, dropdowns, modals etc.. The larger a framework gets the more difficult it becomes to use only certain parts of a framework.
 
 As this growth happens a framework will inevitably develop its own theme which can be hard to separate from its individual components. That coupling between theme and structure can, in some cases, make developing your own distinct visual style very difficult. The result is your site looks notably similiar to many others.
 
-## The solution
+### The solution
 
 Framework growth, and coupling between theme and structure are two problems Asimov tries to solve.
 
@@ -71,11 +71,11 @@ Primarily, Asimov components adopts the concept of separating structure and skin
 
 Although the Asimov implementation is different, the idea remains the same.
 
-## Built for today
+### Built for today
 
 We felt it was important to use the latest generation of tools and techniques to tackle the current day problems. With that in mind the Asimov project has been influenced by work done by many great minds.
 
-### Technology behind Asimov
+#### Technology behind Asimov
 
 We're proud to have built on the shoulders of giants!
 
@@ -96,13 +96,13 @@ Asimov has also been influenced by these great projects
 - [SUIT](https://github.com/suitcss)
 
 
-# Getting started
+## Getting started
 
 Your projects can consume Asimov in two ways, by using a [pre-compiled distribution](#use-it-like-bootstrap) or by importing components directly into your [existing Sass projects](#direct-integration).
 
 Compiling a collection of components and a their theming variable to a static distribution is done with [themes](#themes). Using themes allows for easy sharing of compiled assets, theming variables, and version controlling - however using themes is optional. You can just as easily bower install Asimov components [directly into your project](#direct-integration) and use Sass `@import` to load components and/or their mixins.
 
-## Use it like bootstrap
+### Use it like bootstrap
 
 Asimov themes are collection of components and pre-set theming variables that can compiled to static assets that you can include into your markup the same as you would any other project. This is the easiest, and recommended way to consume Asimov in your project. [TODO: link to Isaac any other themes when we have some].
 
@@ -110,7 +110,7 @@ To install a theme download its `dist` folder into a publicly accessible directo
 
 If you would also like to [include](http://sass-lang.com/documentation/file.SASS_REFERENCE.html#including_a_mixin) or [extend](http://sass-lang.com/documentation/file.SASS_REFERENCE.html#extend) Asimov components you can do so by **also** [directly integrating](#direct-integration) a theme or component into your project.
 
-## Direct integration
+### Direct integration
 
 If you're already using Sass and bower you can bower install Asimov components and configure your theme variables directly within your project. If you go down this path there a things you need to know:
 
@@ -124,7 +124,7 @@ __If you're already using a [theme's distribution files](#direct-integration) on
 
 Once the Sass load-path has been configured you can `@import` components with the path `<component-name>/(mixin,component)/<component-name>` (__[Why the strange import paths?](#why-the-strange-import-paths)__) eg:
 
-### Output an entire component
+#### Output an entire component
 
 This will output the entire grid component.
 
@@ -133,7 +133,7 @@ This will output the entire grid component.
 @import "grid/components/grid";
 ```
 
-### Using a component's mixins
+#### Using a component's mixins
 
 This will mix `grid-row` into `.my-div`, but not output the entire grid component itself. So although `my-div` knows how to active a grid row the `.row` class wont be available to other dom elements.
 
@@ -149,7 +149,7 @@ This will mix `grid-row` into `.my-div`, but not output the entire grid componen
 When using any Asimov functions, mixins, or components in your Sass files you currently need to `@import "asimov/asimov";` to bootstrap Asimov.
 
 
-# Architecture
+## Architecture
 
 Unlike some frontend frameworks Asimov is not one project, but a group of projects that work together: [asimov-core](https://github.com/asimov/asimov-core), [asimov-build](https://github.com/asimov/asimov-build), asimov components _[TODO: link to component directory when ready]_, and themes _[TODO: link to theme directory when ready]_. 
 
@@ -166,11 +166,11 @@ All said and done the Asimov architecure is very similiar other module or plugin
 ![Asimov architecure](../docs/as-markdown/images/asimov-architecture.png?raw=true)
 
 
-# Core
+## Core
 
 The backbone of Asimov's theming power is the settings API. All every peice of the Asimov eco-system interacts with settings API, and it lives within Asimov core.
 
-## Settings
+### Settings
 
 The settings API is the interface for Asimov's internal settings data store. With the settings API you can retrieve and store any valid Sass literal, via the [get](#get) and [set](#set) functions.
 
@@ -189,13 +189,13 @@ Components will try to `get` settings so they can theme themselves eg:
 
 If there is not value set yet `get` will return `null`. (__[Why do you return null?](#why-the-strange-import-paths)__)
 
-### Aliases
+#### Aliases
 
-### Lazys
+#### Lazys
 
-## Functions
+### Functions
 
-### get
+#### get
 
 Gets `$key`s value.
 
@@ -215,7 +215,7 @@ $settings: set(("foo": (
 @debug(get("foo/bar/baz"));
 ```
 
-### set
+#### set
 
 Sets `$key`s value to `$value`.
 
@@ -230,7 +230,7 @@ The new value for `$key` is returned.
 If `$key` is a `Map` then `$key` is recursively merged with settings and `$value` is ignored.  
 A copy of the updated settings map is returned.
 
-### set-default
+#### set-default
 
 Sets `$key`s value to `$value` only if it currently has no value. This emulates Sass's native [!default](http://sass-lang.com/documentation/file.SASS_REFERENCE.html#variable_defaults_).
 
@@ -245,7 +245,7 @@ The new value for `$key` is returned.
 If `$key` is a `Map` then `$key` is recursively merged with settings and `$value` is ignored.  
 A copy of the updated settings map is returned.
 
-### lazy
+#### lazy
 
 Serializes a call to `$func` with arguments `$args` that can be later evaluated by [get](#get).  
 If the value of `get($key)` is a lazy, it will evaluated and the returned value is returned.  
@@ -256,59 +256,59 @@ The primary use case is to evaluate aliased values at runtime.
 | `$func` | String |
 | `$args` | Map    |
 
-## Mixins
-
-
-# Components
-
-## Using a component
-
-## Anatomy of a component
-
-### Settings
-
-### Functions
-
 ### Mixins
 
-### Output
 
-## Writing your first component
+## Components
+
+### Using a component
+
+### Anatomy of a component
+
+#### Settings
+
+#### Functions
+
+#### Mixins
+
+#### Output
+
+### Writing your first component
 
 
-# Themes
-
-TBA
-
-## Using a theme
-
-TBA
-
-## Anatomy of a theme
-
-TBA
-
-### Settings
-
-TBA
-
-### Functions
+## Themes
 
 TBA
 
-### Mixins
+### Using a theme
 
 TBA
 
-### Components
+### Anatomy of a theme
 
 TBA
 
-### Output
+#### Settings
 
 TBA
 
-## Writing your first theme
+#### Functions
+
+TBA
+
+#### Mixins
+
+TBA
+
+#### Components
+
+TBA
+
+#### Output
+
+TBA
+
+### Writing your first theme
 
 TBA
 
@@ -338,17 +338,17 @@ TBA
 
 
 
-# FAQ
+## FAQ
 
 I'm sure you've got a lot of questions. Asimov is the accumulation of a bunch of great from some really smart people. As a result there's a lot to cover, and some required background knowledge. We've tried our best below to explain how and why we did some of the things we did. If there's something that's still unclear or you could be explained better please open [an issue](https://github.com/asimov/asimov.io/issues) to help us fix it! :)
 
-## Why the strange import paths?
+### Why the strange import paths?
 
 The reason we repeat the component name in import paths is acheive a type of namespacing. It's unrealistic to expect all projects wanting to use Asimov won't already have Sass to css of their own. We've been mindful of this when building Asimov so some decisions have been made to ease the integration process.
 
 It's likely a project will already have a `mixins/button` file. With Sass's import model, only one of these files would importable, which would make integration much harder. We needed to namespace Asimov components from any existing Sass.
 
-## Why not namespace under Asimov?
+### Why not namespace under Asimov?
 
 We could have. This what popular Sass libraries like bourbon and foundation do.
 
@@ -358,7 +358,7 @@ For example if two people were to create button components that we're very diffe
 
 
 
-# License
+## License
 
 Made available under the [MIT License (MIT)](https://github.com/asimov/asimov.io/blob/master/LICENSE).
 
