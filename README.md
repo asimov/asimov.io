@@ -335,6 +335,13 @@ $settings: ("my-component": (
 
 ### Using a component
 
+To use a component in your project you need to first install it via bower.  
+You can find a list of official public components in the [Asimov github organisation](https://github.com/search?q=contrib+user%3Aasimov&type=Repositories&ref=searchresults).
+
+```bash
+$ bower install asimov/<repository> --save
+```
+
 ### Anatomy of a component
 
 #### Settings
