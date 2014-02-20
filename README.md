@@ -13,8 +13,13 @@ Asimov is a rethinking of frontend frameworks in a modern style. The aim is to m
     * [Technology behind Asimov](#technology-behind-asimov)
 2. [Getting started](#getting-started)
   * [System requirements](#system-requirements)
-  * [Use it like bootstrap](#use-it-like-bootstrap)
-  * [Direct integration](#direct-integration)
+  * [Using Asimov](#using-asimov)
+    * [Using Asimov with ruby Sass](#using-asimov-with-ruby-sass)
+    * [Using Asimov with Grunt](#using-asimov-with-grunt)
+  * [Using components](#using-components)
+  * [Using themes](#using-themes)
+    * [Use it like bootstrap](#use-it-like-bootstrap)
+    * [Advanced usage](#advanced-usage)
 3. [Architecture](#archeticure)
 4. [Core](#core)
   * [Settings](#core-settings)
@@ -103,7 +108,7 @@ Asimov has also been influenced by these great projects
 
 ## Getting started
 
-Your projects can consume Asimov in two ways, by using a [pre-compiled distribution](#use-it-like-bootstrap) or by importing components directly into your [existing Sass projects](#direct-integration).
+Your projects can consume Asimov in two ways, by using a [pre-compiled distribution](#use-it-like-bootstrap) or by importing components directly into your [existing Sass projects](#advanced-usage).
 
 Compiling a collection of components and a their theming variable to a static distribution is done with [themes](#themes). Using themes allows for easy sharing of compiled assets, theming variables, and version controlling - however using themes is optional. You can just as easily bower install Asimov components [directly into your project](#direct-integration) and use Sass `@import` to load components and/or their mixins.
 
@@ -133,51 +138,99 @@ or `bundler` by adding the following to your `Gemfile`
 gem "sass", "~> 3.3.0.rc.4"
 ```
 
-### Use it like bootstrap
+### Using Asimov
 
-Asimov themes are collection of components and pre-set theming variables that can compiled to static assets that you can include into your markup the same as you would any other project. This is the easiest, and recommended way to consume Asimov in your project. [TODO: link to Isaac any other themes when we have some].
+There a couple ways you can use Asimov in your project.
 
-To install a theme download its `dist` folder into a publicly accessible directory of your project, or use [bower](http://bower.io) to do that for you.
+##### Using Asimov with ruby Sass
 
-If you would also like to [include](http://sass-lang.com/documentation/file.SASS_REFERENCE.html#including_a_mixin) or [extend](http://sass-lang.com/documentation/file.SASS_REFERENCE.html#extend) Asimov components you can do so by **also** [directly integrating](#direct-integration) a theme or component into your project.
+Execute `sass` as you normally would but with the extra load paths you require. For example to load the `asimov-contrib-buttons` component you execute:
 
-### Direct integration
+```bash
+$ sass -I bower_components/asimov-contrib-buttons/src/scss myfile.scss myfile.css
+```
 
-If you're already using Sass and bower you can bower install Asimov components and configure your theme variables directly within your project. If you go down this path there a things you need to know:
+##### Using Asimov with Grunt
 
-1. you'll need to add the bowered asimov components to [Sass's load-path](http://sass-lang.com/documentation/file.SASS_REFERENCE.html#import) so they can be imported
-2. component css will only be generated if it has been `@import`ed into a compiled file
-3. if components require javascript you will need to add the bowered asimov components to [requirejs's paths config](http://requirejs.org/docs/api.html#config-paths)
+Install the [grunt-contrib-sass](https://github.com/gruntjs/grunt-contrib-sass) plugin
 
-__If you're already using a [theme's distribution files](#direct-integration) only the first point is required__
+```bash
+npm install grunt-contrib-sass --save-dev
+```
 
-**Warning: if you're using a theme's distribution files and also bower installing the theme or any of its components make sure you're using the same or compatible versions. Asimov uses semver 2.0 for version control, you can learn all about it [here](http://semver.org/spec/v2.0.0.html)**
+And add the following configuration to your Gruntfile
 
-Once the Sass load-path has been configured you can `@import` components with the path `<component-name>/(mixin,component)/<component-name>` (__[Why the strange import paths?](#why-the-strange-import-paths)__) eg:
+```javascript
+// a small function to get all the Asimov component load paths
+var sassLoadPaths = ['<your current load paths if any>'].concat(
+    grunt.file.glob.sync('bower_components/asimov-*').map(function (depPath) {
+        return path.join(depPath, 'src', 'scss');
+    }));
 
-#### Output an entire component
+grunt.initConfig({
+    sass: {
+        options: {
+            loadPath: sassLoadPaths // tell Sass where to find your components
+        },
+        ... your sass config here ...
+    }
+});
+```
 
-This will output the entire grid component.
+### Using components
+
+You can install one or more components, i.e. buttons, via bower and theme them to your heart's content. You can find a list of official components in the [Asimov github organisation](https://github.com/search?q=contrib+user%3Aasimov&type=Repositories&ref=searchresults).
+
+```bash
+$ bower install asimov/asimov-contrib-buttons --save
+```
+
+Now use a component on your project you need to tell Sass where it can find you're new component. You do this by adding the components `src/scss` directory to Sass's `load_path`.
+
+Now you can start using the component's mixins, extend it's classes, or just output it as is by importing the respective files. See the Sass [@import documentation](http://sass-lang.com/documentation/file.SASS_REFERENCE.html#import) for more information.
+
+```scss
+@import "buttons/mixins/buttons"; // makes the buttons mixins available but produce no output.
+@import "buttons/components/buttons"; // outputs the css the entire button component.
+```
+
+(__[Why the strange import paths?](#why-the-strange-import-paths)__)
+
+[TODO: document requirejs integration once this is cleaned up].
+
+### Using Themes
+
+Asimov themes are collection of components and pre-set theming variables. The difference between themes and components is that themes can be compiled to static assets that you can use your application and [Use it like Bootstrap](#use-it-like-bootstrap). Simply bower install a theme and copy its `dist` folder into a publicly accessible directory of your project. [TODO: link to Isaac any other themes when we have some].
+
+Installing a theme also installs all of it's components so you can selectively choose which components you want to use by importing them as described in [Using components](#using-components). Check out the [Advanced usage](#advanced-usage) section for more information.
+
+#### Use it like Bootstrap
+
+
+#### Advanced usage
+
+When using any Asimov functions, mixins, or components in your Sass files you currently need to `@import "asimov/asimov";` to bootstrap Asimov.
+
+To output an entire component you just need to import it's component file.
 
 ```scss
 @import "asimov/asimov";
 @import "grid/components/grid";
 ```
 
-#### Using a component's mixins
-
-This will mix `grid-row` into `.my-div`, but not output the entire grid component itself. So although `my-div` knows how to active a grid row the `.row` class wont be available to other dom elements.
+To use a component's mixins you just need to import it's mixin file.
 
 ```scss
 @import "asimov/asimov";
 @import "grid/components/grid";
 
 .my-div {
+  // This will mix `grid-row` into `.my-div`, but not output the `.row` class. 
   @include grid-row;
 }
 ```
 
-When using any Asimov functions, mixins, or components in your Sass files you currently need to `@import "asimov/asimov";` to bootstrap Asimov.
+(__[Why the strange import paths?](#why-the-strange-import-paths)__)
 
 
 ## Architecture
